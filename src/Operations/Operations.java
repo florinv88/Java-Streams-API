@@ -8,6 +8,11 @@ public class Operations {
 
         List<Integer> list = List.of(1,5,2,6,3,8,9);
         List<String> listStrings = List.of("abc","qwerty","asdsad");
+        List<List<Integer>> datasource = List.of(
+                List.of(1,2,3,4,5,6),
+                List.of(3,4,5,6),
+                List.of(1,2)
+        );
 
         /*
          * .anyMatch()
@@ -57,6 +62,19 @@ public class Operations {
 
         Stream<String> reverseWords = listStrings.stream()   // stream of the initial strings
                 .map(s -> new StringBuilder(s).reverse().toString());   // map transforms the strings in their reverse
+
+
+        /*
+         * .flatMap()
+         * .flatMapToInt()
+         * A flatMap transform a datasource into a stream
+         * - it used when we have a datasource that contains another datasource that we want to extract
+         */
+
+        Integer sumUsingFlatMap = datasource.stream()  //  Stream <List<Integer>>  : [1,2,3,4,5,6] [3,4,5,6] [1,2]
+                .flatMap(lista -> lista.stream()) // Streamm of Integers [1,2,3,4,5,6,3,4,5,6,1,2]
+                .reduce(0, (a,b) -> a + b); //sum
+        System.out.println(sumUsingFlatMap);
 
     }
 }
